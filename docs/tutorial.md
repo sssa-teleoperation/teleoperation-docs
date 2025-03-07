@@ -107,7 +107,7 @@ C++ it's extremely performant, since it's a compiled language, the code you writ
 
 On the other side, Python codes are way easier to read and to write, but they are poorly performant. Indeed the code is not pre-compiled, but's is interpretated **during** the execution and sent to the machine again as a set of binary instructions. Things are way slower.
 
-We strongly suggest to [learn the C++ basics](https://www.youtube.com/watch?v=32jPsN3C9cw) for three reasons:
+We strongly suggest to [learn the C++ basics](https://www.youtube.com/playlist?list=PLOdai0B1qcTe18fxbq5o7NS5CrYYfabEo) for three reasons:
 
 1. If you understand C++, you will reuse a lot of that knowledge for Python. The opposite doesn't work.
 2. At a certain point you will find a ROS package (not yours) that you need to adjust to your will, for your specific application. What if they are written in C++?
