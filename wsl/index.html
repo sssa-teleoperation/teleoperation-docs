@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>WSL - HRI Teleoperation Tutorial</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "WSL";
+        var mkdocs_page_input_path = "wsl.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> HRI Teleoperation Tutorial
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../tutorial/">Tutorial</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="#">WSL</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#ros1">ROS1</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#ros2">ROS2</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#clock">Clock</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#networking">Networking</a>
+    </li>
+    </ul>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">HRI Teleoperation Tutorial</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">WSL</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="wsl">WSL</h1>
+<p>The Windows Subsystem for Linux if powerfull, but tricky. If you're using Docker Desktop, the trickiest part is running high-consuming rendering application (within a container) using your favourite GPU. Otherwise, even simple programs like Rviz! will overload your CPU.</p>
+<p>After some investigations we found a solution.</p>
+<h2 id="ros1">ROS1</h2>
+<pre><code class="language-dockerfile">FROM osrf/ros:noetic-desktop
+
+ARG DEBIAN_FRONTEND=noninteractive
+
+SHELL [&quot;/bin/bash&quot;, &quot;-c&quot;]
+
+RUN apt update -y &amp;&amp; apt upgrade -y &amp;&amp; apt -y install \
+    libxext-dev \
+    libx11-dev \
+    libglvnd-dev \
+    libglx-dev \
+    libgl1-mesa-dev \
+    libgl1-mesa-glx \
+    libgl1-mesa-dri \
+    libegl1-mesa-dev \
+    libgles2-mesa-dev \
+    freeglut3-dev \
+    mesa-utils \
+    mesa-utils-extra
+
+RUN apt install -y software-properties-common &amp;&amp; add-apt-repository ppa:kisak/turtle -y &amp;&amp; apt update &amp;&amp; apt upgrade -y
+
+ENV MESA_D3D12_DEFAULT_ADAPTER_NAME=NVIDIA
+ENV LD_LIBRARY_PATH=/usr/lib/wsl/lib
+ENV LIBVA_DRIVER_NAME=d3d12
+</code></pre>
+<p>and test with</p>
+<pre><code>docker run --device /dev/dxg --device /dev/dri/card0 --device /dev/dri/renderD128 --env DISPLAY=$DISPLAY --env WAYLAND_DISPLAY=$WAYLAND_DISPLAY --env PULSE_SERVER=$PULSE_SERVER --volume /tmp/.X11-unix:/tmp/.X11-unix --volume /mnt/wslg:/mnt/wslg --volume /usr/lib/wsl:/usr/lib/wsl -dit --gpus=all --name noetic wsl2-opengl:noetic
+</code></pre>
+<h2 id="ros2">ROS2</h2>
+<p>Way simpler</p>
+<pre><code>docker run --device /dev/dxg --device /dev/dri/card0 --device /dev/dri/renderD128 --env DISPLAY=$DISPLAY --env WAYLAND_DISPLAY=$WAYLAND_DISPLAY --env PULSE_SERVER=$PULSE_SERVER --env MESA_D3D12_DEFAULT_ADAPTER_NAME=NVIDIA --env LD_LIBRARY_PATH=/usr/lib/wsl/lib --env LIBVA_DRIVER_NAME=d3d12 --volume /tmp/.X11-unix:/tmp/.X11-unix --volume /mnt/wslg:/mnt/wslg --volume /usr/lib/wsl:/usr/lib/wsl -dit --gpus=all --name jazzy osrf/ros:jazzy-desktop
+</code></pre>
+<h2 id="clock">Clock</h2>
+<p>If you encounter any issue with ROS time, which keeps resetting, look at this <a href="https://github.com/matthewnourse/polite-hwclock-hctosys">repo</a>. Of course you need to install the service within the WSL distribution that serves as Docker Desktop backend.</p>
+<h2 id="networking">Networking</h2>
+<p>If you need to contact some windows applications or some physical device via TCP, you'll need to open the <code>WSL Settings</code> app. Set the network mode to <code>Mirrored</code> and enable the host address loopback option. Then restart WSL.</p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../tutorial/" class="btn btn-neutral float-left" title="Tutorial"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../tutorial/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
