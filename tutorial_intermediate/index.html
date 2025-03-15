@@ -116,10 +116,11 @@ docker exec -it ubuntu bash -c 'g++ --version' #no error, prints the compiler ve
 </code></pre>
 <h2 id="docker-compose">Docker Compose</h2>
 <p>Docker Containers can be composed together to form a modular architecture. For instance consider a practical case on our teleoperation platform.</p>
-<p>You are developing a super cool ROS2 package which turns a target 6D pose for the robot into target joint angles for the robotic arms. The vendor, Universal Robots in our case, provides us the ROS2 driver package, which will listen for your joint angle commands (via a <code>ros2 topic</code>) and will take care to send them to the robots.</p>
+<p>You are developing a super cool ROS2 package which turns a target 6D pose for the robot into target joint angles for the robotic arm. The vendor, Universal Robots in our case, provides us the ROS2 driver package, which will listen for your joint angle commands (via a <code>ros2 topic</code>) and will take care to send them to the robot.</p>
 <p>The point is, are you sure that you want to test you're new algorithm directly on real (very expensive) robots? Wouldn't you like to see first how the math that you implemented behaves? Maybe you'll find some bug, so it's a good practice that you test your codes on simulated robots first. Remember, simulated arms are free! </p>
-<p>Here's where modularity helps you! Let's say that your ROS2 package is installed along with the UR driver into a dedicated container, let's call it <em>drivers</em>. You only need to start a second container which runs the simulator to start debugging. Whenever you're ready to test with real robots, just stop the simulator container and connect your robots to <em>drivers</em> container.</p>
+<p>Here's where modularity helps you! Let's say that your ROS2 package is installed along with the UR driver into a dedicated container, let's call it <em>drivers</em>. You only need to start a second container which runs the simulator to start debugging. </p>
 <p>Moreover, imagine that a colleague of yours has a container, let's call it <em>devices</em>, which turns mocap data into target 6D poses for the robots. You can just compose <em>devices</em> and <em>drivers</em> together and the teleoperation system is ready to go!</p>
+<p>Whenever you're ready to test with real robots, just stop the simulator container and connect the <em>drivers</em> with your real robots.</p>
 <!-- ### ROS2
 
 Let's see how it work in a very simple way, we will come to a true architecture later.
