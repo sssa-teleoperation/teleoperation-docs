@@ -5,14 +5,14 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <link rel="shortcut icon" href="../img/favicon.ico" />
-    <title>Tutorial - HRI Teleoperation Tutorial</title>
+    <title>Tutorials (Beginner) - HRI Teleoperation Tutorial</title>
     <link rel="stylesheet" href="../css/theme.css" />
     <link rel="stylesheet" href="../css/theme_extra.css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
     
       <script>
         // Current page data
-        var mkdocs_page_name = "Tutorial";
+        var mkdocs_page_name = "Tutorials (Beginner)";
         var mkdocs_page_input_path = "tutorial.md";
         var mkdocs_page_url = null;
       </script>
@@ -44,7 +44,7 @@
                 </li>
               </ul>
               <ul class="current">
-                <li class="toctree-l1 current"><a class="reference internal current" href="#">Tutorial</a>
+                <li class="toctree-l1 current"><a class="reference internal current" href="#">Tutorials (Beginner)</a>
     <ul class="current">
     <li class="toctree-l2"><a class="reference internal" href="#docker">Docker</a>
         <ul>
@@ -70,6 +70,10 @@
                 </li>
               </ul>
               <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../tutorial_intermediate/">Tutorials (Intermediate)</a>
+                </li>
+              </ul>
+              <ul>
                 <li class="toctree-l1"><a class="reference internal" href="../wsl/">WSL</a>
                 </li>
               </ul>
@@ -87,7 +91,7 @@
         <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
     <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
-      <li class="breadcrumb-item active">Tutorial</li>
+      <li class="breadcrumb-item active">Tutorials (Beginner)</li>
     <li class="wy-breadcrumbs-aside">
     </li>
   </ul>
@@ -96,7 +100,7 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                <h1 id="tutorials">Tutorials</h1>
+                <h1 id="tutorials-beginner">Tutorials (Beginner)</h1>
 <p>At Artificial Hands Area, we use complex devices to pursue our research on Human-Robot Interaction, particularly teleoperation platforms.</p>
 <p>Our platform is composed of the following:</p>
 <ul>
@@ -120,13 +124,17 @@
 <p><strong>Note:</strong> <code>apt</code> is a repository of all packages that you can install on Linux.</p>
 <p>As you will notice <code>sudo</code> will require your password, which means that docker requires you to log in as an administrator to run any command, like starting the <code>hello-world</code> container. Asking for your password is fine if you need to install a library once using <code>apt</code>, but it's annoying if you need it for any <code>docker</code> command. So, let's say to docker that you can work with containers also as a non-root (i.e., non-administrator) user.</p>
 <p>For this, we create a new group of users</p>
-<p>sudo groupadd docker</p>
+<pre><code class="language-bash">sudo groupadd docker
+</code></pre>
 <p>and we say that you (the user) are part of that group</p>
-<p>sudo usermod -aG docker $USER</p>
+<pre><code class="language-bash">sudo usermod -aG docker $USER
+</code></pre>
 <p>Then we say to our operating system that there is a new group of users</p>
-<p>newgrp docker</p>
+<pre><code class="language-bash">newgrp docker
+</code></pre>
 <p>and now starting a container is way simpler</p>
-<p>docker run hello-world</p>
+<pre><code class="language-bash">docker run hello-world
+</code></pre>
 <p>The point is that <code>docker</code> is now seeing that you (user) are part of a group named ... <em>docker</em>, so he's happy and it will let you work without asking for your password!</p>
 <p>Finally, you can set Docker Engine to automatically <a href="https://docs.docker.com/engine/install/linux-postinstall/#configure-docker-to-start-on-boot-with-systemd">start on boot</a> whenever you turn on your pc.</p>
 <h3 id="windows">Windows</h3>
@@ -134,7 +142,8 @@
 <p>Actually, the Docker Engine will run on the Windows Subsystem for Linux (WSL). So you need to run the <a href="https://learn.microsoft.com/en-us/windows/wsl/install#install-wsl-command">install WSL command</a> first.</p>
 <p>Then simply <a href="https://docs.docker.com/desktop/setup/install/windows-install/">download and install Docker Desktop</a> (it will include the Engine!).</p>
 <p>Open the application and try from the Windows PowerShell</p>
-<p>docker run hello-world</p>
+<pre><code class="language-bash">docker run hello-world
+</code></pre>
 <h2 id="ros">ROS</h2>
 <p>As we have many devices, our platform requires a lot of specialized code (actually executables) to communicate with each of them, for instance to:</p>
 <ul>
@@ -144,14 +153,20 @@
 <p>Moreover, how each of these specialized executables can communicate? For instance how the program that reads the posture of the human operator can send the information to the robot, to set its joint positions? Lucky us, we can use the Robot Operating System (ROS).</p>
 <p>ROS it's not actually an operating system, it's a framework where specialized programs are called <em>nodes</em>. The beauty of <em>nodes</em> is that they can exchange data very easily using ROS communication channels, which are called <em>topics</em>.</p>
 <p>Moreover, we do not need to write specialized programs for each device we buy. Since ROS it's a standard in robotics research, vendors typically provide ROS driver packages that you can install with <code>apt</code>. So in this way, the communication with the devices is solved. Our job is to develop our own ROS packages, to connect them.</p>
-<p>Make sure you have the prerequisites before starting with the tutorials on <a href="https://docs.ros.org/en/jazzy/Tutorials/Beginner-CLI-Tools.html#">usage</a> and <a href="https://docs.ros.org/en/jazzy/Tutorials/Beginner-Client-Libraries.html#">programming</a> of ROS applications.</p>
+<p>Make sure you have the <a href="#prerequisites">prerequisites</a> before starting with the tutorials on <a href="https://docs.ros.org/en/jazzy/Tutorials/Beginner-CLI-Tools.html#">usage</a> and <a href="https://docs.ros.org/en/jazzy/Tutorials/Beginner-Client-Libraries.html#">programming</a> of ROS applications.</p>
 <p>Also, use a proper container to work with the tutorials</p>
-<p>docker run --volume /tmp/.X11-unix:/tmp/.X11-unix --env DISPLAY=$DISPLAY -dit --name jazzy osrf/ros:jazzy-desktop</p>
-<p><strong>Windows:</strong> Make sure you run the command from a WSL terminal, which you can access by running the <code>wsl</code> command in a Windows PowerShell.</p>
+<pre><code class="language-bash">docker run --volume /tmp/.X11-unix:/tmp/.X11-unix --env DISPLAY=$DISPLAY -dit --name jazzy osrf/ros:jazzy-desktop
+</code></pre>
+<p><strong>Windows:</strong> Make sure you execute the <code>docker run</code> command from a WSL terminal, which you can access by running the <code>wsl</code> command in a Windows PowerShell.</p>
 <p>If you want to open a terminal to execute commands in the container</p>
-<p>docker exec -it jazzy bash</p>
+<pre><code class="language-bash">docker exec -it jazzy bash
+</code></pre>
 <p><strong>Note:</strong> Within the container, you will always be the administrator, so you DON'T need <code>sudo</code> authentication.</p>
-<p><strong>Note:</strong> See below how to use <a href="../#code-editor">vscode</a> to work within the container.</p>
+<p><strong>Note:</strong> See in the <a href="#prerequisites">prerequisites</a> how to use <a href="../#code-editor">vscode</a> to work within the container.</p>
+<p>Whenever you want to take a break or resume your work, you can simply stop/start the container</p>
+<pre><code class="language-bash">docker stop jazzy #to stop it
+docker start jazzy #to restart it
+</code></pre>
 <h3 id="prerequisites">Prerequisites</h3>
 <h4 id="c">C++</h4>
 <p>As you can imagine you need to write some code to develop ROS packages, which you can do using:</p>
@@ -168,9 +183,10 @@
 <li>What if for your application you realize that Python code is not performant enough?</li>
 </ol>
 <p><strong>Bonus:</strong> To get confident with docker in the meanwhile, we suggest you create a Linux container where you'll work to learn the basics (thus skip the <em>Introduction</em> part of the video tutorial)</p>
-<p>docker run -d -t --name ubuntu #start a basic Linux container
- docker exec -it ubuntu bash -c 'apt update &amp;&amp; apt install g++ -y' #install the C++ compiler, you will need it!</p>
-<p><strong>Note:</strong> See how you can <a href="https://code.visualstudio.com/"><em>attach</em> vscode</a> to the container to start developing!</p>
+<pre><code class="language-bash">docker run -d -t --name ubuntu ubuntu #start a basic Linux container
+docker exec -it ubuntu bash -c 'apt update &amp;&amp; apt install g++ -y' #install the C++ compiler, you will need it!
+</code></pre>
+<p><strong>Note:</strong> See how you can <a href="https://code.visualstudio.com/docs/devcontainers/attach-container"><em>attach</em> vscode</a> to the container to start developing!</p>
 <h4 id="cmake">CMake</h4>
 <p>As you will learn from the video tutorial, you need to manually call the C++ compiler, which is the <code>g++</code> executable, to turn your human-readable code into binary instructions for the machine. Imagine that your project includes many programs to compile. Do you need to call <code>g++</code> manually for each file? No, of course, you can use CMake!</p>
 <p>CMake is a cross-platform (Windows/Linux) tool that makes the generation of executables easier. No wonder that is the tool you will need to use to compile the code you'll write to form a new ROS package. For this purpose, you will learn to use this tool in the <a href="#ros">ROS</a> tutorials, but even here a minimum preliminary understanding of CMake is required. </p>
@@ -180,7 +196,7 @@
           </div><footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
         <a href=".." class="btn btn-neutral float-left" title="Home"><span class="icon icon-circle-arrow-left"></span> Previous</a>
-        <a href="../wsl/" class="btn btn-neutral float-right" title="WSL">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../tutorial_intermediate/" class="btn btn-neutral float-right" title="Tutorials (Intermediate)">Next <span class="icon icon-circle-arrow-right"></span></a>
     </div>
 
   <hr/>
@@ -206,7 +222,7 @@
       <span><a href=".." style="color: #fcfcfc">&laquo; Previous</a></span>
     
     
-      <span><a href="../wsl/" style="color: #fcfcfc">Next &raquo;</a></span>
+      <span><a href="../tutorial_intermediate/" style="color: #fcfcfc">Next &raquo;</a></span>
     
   </span>
 </div>

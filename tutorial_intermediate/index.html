@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Tutorials (Intermediate) - HRI Teleoperation Tutorial</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Tutorials (Intermediate)";
+        var mkdocs_page_input_path = "tutorial_intermediate.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> HRI Teleoperation Tutorial
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../tutorial/">Tutorials (Beginner)</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="#">Tutorials (Intermediate)</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#dockerfiles">Dockerfiles</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#docker-compose">Docker Compose</a>
+    </li>
+    </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../wsl/">WSL</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">HRI Teleoperation Tutorial</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Tutorials (Intermediate)</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="tutorials-intermediate">Tutorials (Intermediate)</h1>
+<p>Before going on, let's go back to the <code>docker run hello-world</code> command. What <code>docker run</code> does is to create a container from the <code>hello-world</code> image. You can create as many containers (completely unrelated) as you want from the same image. </p>
+<p><strong>Note:</strong> We suggest you the <a href="https://code.visualstudio.com/docs/containers/overview">vscode docker</a> extension to <a href="https://code.visualstudio.com/docs/containers/overview#_docker-explorer">explore</a> all containers and images on your system.</p>
+<p>You should also have noticed that <code>docker run</code> will <em>download</em> (or rather <code>pull</code>) the <code>hello-world</code> image from the web (actually from some known repositories, like <code>apt</code> does) if it was not found locally. Try one by one the commands below.</p>
+<pre><code class="language-bash">docker rmi hello-world #will erase the local image
+docker pull hello-world #only downloads the latest version of the image.
+docker run hello-world #start a container with random fancy name
+docker run --name pippo hello-world #start a container named pippo
+docker run --name pluto --rm hello-world #start a container named pippo, automatically remove it on stop (--rm)
+docker container ls #list all running container
+</code></pre>
+<h2 id="dockerfiles">Dockerfiles</h2>
+<p>In you went through the <a href="../tutorial/#ros">ROS tutorial</a>, you probably installed some <code>apt</code> packages to proceed, or maybe you manually <em>downloaded</em> some code from <code>git</code>.</p>
+<p>The point is, if you loose the container for some reason, will you also loose all the installations you made, all the files you downloaded, within the container? The answer is "yes".</p>
+<p>That's the reason why we use a <code>Dockerfile</code> to keep track of most of the installations. Let's consider the <a href="../tutorial/#c">learn the C++ basics</a> example.</p>
+<pre><code class="language-bash">docker run -d -t --name ubuntu ubuntu #start a basic Linux container: -d sends it in background (detach), -t keeps it running
+docker exec -it ubuntu bash -c 'g++ --version' #gives error, g++ is not installed yet
+docker exec -it ubuntu bash -c 'apt update &amp;&amp; apt install g++ -y' #install the C++ compiler, you will need it!
+</code></pre>
+<p>We can keep track of the <code>g++</code> installation with a <code>Dockerfile</code> (create it from vscode)</p>
+<pre><code class="language-dockerfile">FROM ubuntu
+RUN apt update &amp;&amp; apt install g++ -y
+</code></pre>
+<p>How it works? Save it and use it to build a specialized Docker Image</p>
+<pre><code class="language-bash">docker build -f /path/to/your/Dockerfile -t my-image
+</code></pre>
+<p>so that if you start a container from the newly created image you will find <code>g++</code> already there</p>
+<pre><code class="language-bash">docker run -d -t --name my-ubuntu my-image
+docker exec -it ubuntu bash -c 'g++ --version' #no error, prints the compiler version
+</code></pre>
+<h2 id="docker-compose">Docker Compose</h2>
+<p>Docker Containers can be composed together to form a modular architecture. For instance consider a practical case on our teleoperation platform.</p>
+<p>You are developing a super cool ROS2 package which turns a target 6D pose for the robot into target joint angles for the robotic arms. The vendor, Universal Robots in our case, provides us the ROS2 driver package, which will listen for your joint angle commands (via a <code>ros2 topic</code>) and will take care to send them to the robots.</p>
+<p>The point is, are you sure that you want to test you're new algorithm directly on real (very expensive) robots? Wouldn't you like to see first how the math that you implemented behaves? Maybe you'll find some bug, so it's a good practice that you test your codes on simulated robots first. Remember, simulated arms are free! </p>
+<p>Here's where modularity helps you! Let's say that your ROS2 package is installed along with the UR driver into a dedicated container, let's call it <em>drivers</em>. You only need to start a second container which runs the simulator to start debugging. Whenever you're ready to test with real robots, just stop the simulator container and connect your robots to <em>drivers</em> container.</p>
+<p>Moreover, imagine that a colleague of yours has a container, let's call it <em>devices</em>, which turns mocap data into target 6D poses for the robots. You can just compose <em>devices</em> and <em>drivers</em> together and the teleoperation system is ready to go!</p>
+<!-- ### ROS2
+
+Let's see how it work in a very simple way, we will come to a true architecture later.
+
+### ROS1 Bridge -->
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../tutorial/" class="btn btn-neutral float-left" title="Tutorials (Beginner)"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../wsl/" class="btn btn-neutral float-right" title="WSL">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../tutorial/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../wsl/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
