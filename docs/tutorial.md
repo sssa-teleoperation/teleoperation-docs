@@ -1,4 +1,4 @@
-# Tutorials
+# Tutorials (Beginner)
 
 At Artificial Hands Area, we use complex devices to pursue our research on Human-Robot Interaction, particularly teleoperation platforms.
 
@@ -34,21 +34,21 @@ In Linux, you can follow the [install using the apt repository](https://docs.doc
 As you will notice `sudo` will require your password, which means that docker requires you to log in as an administrator to run any command, like starting the `hello-world` container. Asking for your password is fine if you need to install a library once using `apt`, but it's annoying if you need it for any `docker` command. So, let's say to docker that you can work with containers also as a non-root (i.e., non-administrator) user.
 
 For this, we create a new group of users
-
- sudo groupadd docker
-
+``` bash
+sudo groupadd docker
+```
 and we say that you (the user) are part of that group
-
- sudo usermod -aG docker $USER
-
+``` bash
+sudo usermod -aG docker $USER
+```
 Then we say to our operating system that there is a new group of users
-
- newgrp docker
-
+``` bash
+newgrp docker
+```
 and now starting a container is way simpler
-
- docker run hello-world
-
+``` bash
+docker run hello-world
+```
 The point is that `docker` is now seeing that you (user) are part of a group named ... *docker*, so he's happy and it will let you work without asking for your password!
 
 Finally, you can set Docker Engine to automatically [start on boot](https://docs.docker.com/engine/install/linux-postinstall/#configure-docker-to-start-on-boot-with-systemd) whenever you turn on your pc.
@@ -62,9 +62,9 @@ Actually, the Docker Engine will run on the Windows Subsystem for Linux (WSL). S
 Then simply [download and install Docker Desktop](https://docs.docker.com/desktop/setup/install/windows-install/) (it will include the Engine!).
 
 Open the application and try from the Windows PowerShell
-
- docker run hello-world
-
+``` bash
+docker run hello-world
+```
 ## ROS
 
 As we have many devices, our platform requires a lot of specialized code (actually executables) to communicate with each of them, for instance to:
@@ -78,22 +78,27 @@ ROS it's not actually an operating system, it's a framework where specialized pr
 
 Moreover, we do not need to write specialized programs for each device we buy. Since ROS it's a standard in robotics research, vendors typically provide ROS driver packages that you can install with `apt`. So in this way, the communication with the devices is solved. Our job is to develop our own ROS packages, to connect them.
 
-Make sure you have the prerequisites before starting with the tutorials on [usage](https://docs.ros.org/en/jazzy/Tutorials/Beginner-CLI-Tools.html#) and [programming](https://docs.ros.org/en/jazzy/Tutorials/Beginner-Client-Libraries.html#) of ROS applications.
+Make sure you have the [prerequisites](#prerequisites) before starting with the tutorials on [usage](https://docs.ros.org/en/jazzy/Tutorials/Beginner-CLI-Tools.html#) and [programming](https://docs.ros.org/en/jazzy/Tutorials/Beginner-Client-Libraries.html#) of ROS applications.
 
 Also, use a proper container to work with the tutorials
-
- docker run --volume /tmp/.X11-unix:/tmp/.X11-unix --env DISPLAY=$DISPLAY -dit --name jazzy osrf/ros:jazzy-desktop
-
-**Windows:** Make sure you run the command from a WSL terminal, which you can access by running the `wsl` command in a Windows PowerShell.
+```bash
+docker run --volume /tmp/.X11-unix:/tmp/.X11-unix --env DISPLAY=$DISPLAY -dit --name jazzy osrf/ros:jazzy-desktop
+```
+**Windows:** Make sure you execute the `docker run` command from a WSL terminal, which you can access by running the `wsl` command in a Windows PowerShell.
 
 If you want to open a terminal to execute commands in the container
-
- docker exec -it jazzy bash
-
+```bash
+docker exec -it jazzy bash
+```
 **Note:** Within the container, you will always be the administrator, so you DON'T need `sudo` authentication.
 
-**Note:** See below how to use [vscode](index.md/#code-editor) to work within the container.
+**Note:** See in the [prerequisites](#prerequisites) how to use [vscode](index.md/#code-editor) to work within the container.
 
+Whenever you want to take a break or resume your work, you can simply stop/start the container
+```bash
+docker stop jazzy #to stop it
+docker start jazzy #to restart it
+```
 ### Prerequisites
 
 #### C++
@@ -114,11 +119,11 @@ We strongly suggest to [learn the C++ basics](https://www.youtube.com/playlist?l
 3. What if for your application you realize that Python code is not performant enough?
 
 **Bonus:** To get confident with docker in the meanwhile, we suggest you create a Linux container where you'll work to learn the basics (thus skip the *Introduction* part of the video tutorial)
-
- docker run -d -t --name ubuntu #start a basic Linux container
- docker exec -it ubuntu bash -c 'apt update && apt install g++ -y' #install the C++ compiler, you will need it!
-
-**Note:** See how you can [*attach* vscode](https://code.visualstudio.com/) to the container to start developing!
+```bash
+docker run -d -t --name ubuntu ubuntu #start a basic Linux container
+docker exec -it ubuntu bash -c 'apt update && apt install g++ -y' #install the C++ compiler, you will need it!
+```
+**Note:** See how you can [*attach* vscode](https://code.visualstudio.com/docs/devcontainers/attach-container) to the container to start developing!
 
 #### CMake
 

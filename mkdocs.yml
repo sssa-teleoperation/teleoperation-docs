@@ -2,7 +2,8 @@ site_name: HRI Teleoperation Tutorial
 site_description: A tutorial on teleoperation for human-robot interaction
 nav:
   - Home: index.md
-  - Tutorial: tutorial.md
+  - Tutorials (Beginner): tutorial.md
+  - Tutorials (Intermediate): tutorial_intermediate.md
   - WSL: wsl.md
 theme:
   name: readthedocs
