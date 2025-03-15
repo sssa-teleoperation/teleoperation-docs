@@ -53,12 +53,12 @@
     <li class="toctree-l2"><a class="reference internal" href="#dockerfiles">Dockerfiles</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#docker-compose">Docker Compose</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#ros">ROS</a>
+    </li>
+        </ul>
     </li>
     </ul>
-                </li>
-              </ul>
-              <ul>
-                <li class="toctree-l1"><a class="reference internal" href="../wsl/">WSL</a>
                 </li>
               </ul>
       </div>
@@ -85,12 +85,12 @@
             <div class="section" itemprop="articleBody">
               
                 <h1 id="tutorials-intermediate">Tutorials (Intermediate)</h1>
-<p>Before going on, let's go back to the <code>docker run hello-world</code> command. What <code>docker run</code> does is to create a container from the <code>hello-world</code> image. You can create as many containers (completely unrelated) as you want from the same image. </p>
+<p>Before going on, let's go back to the <code>docker run hello-world</code> command. What <code>docker run</code> does is create a container from the <code>hello-world</code> image. You can create as many containers (completely unrelated) as you want from the same image. </p>
 <p><strong>Note:</strong> We suggest you the <a href="https://code.visualstudio.com/docs/containers/overview">vscode docker</a> extension to <a href="https://code.visualstudio.com/docs/containers/overview#_docker-explorer">explore</a> all containers and images on your system.</p>
 <p>You should also have noticed that <code>docker run</code> will <em>download</em> (or rather <code>pull</code>) the <code>hello-world</code> image from the web (actually from some known repositories, like <code>apt</code> does) if it was not found locally. Try one by one the commands below.</p>
 <pre><code class="language-bash">docker rmi hello-world #will erase the local image
 docker pull hello-world #only downloads the latest version of the image.
-docker run hello-world #start a container with random fancy name
+docker run hello-world #start a container with a random fancy name
 docker run --name pippo hello-world #start a container named pippo
 docker run --name pluto --rm hello-world #start a container named pippo, automatically remove it on stop (--rm)
 docker container ls #list all running container
@@ -99,39 +99,60 @@ docker container ls #list all running container
 <p>In you went through the <a href="../tutorial/#ros">ROS tutorial</a>, you probably installed some <code>apt</code> packages to proceed, or maybe you manually <em>downloaded</em> some code from <code>git</code>.</p>
 <p>The point is, if you loose the container for some reason, will you also loose all the installations you made, all the files you downloaded, within the container? The answer is "yes".</p>
 <p>That's the reason why we use a <code>Dockerfile</code> to keep track of most of the installations. Let's consider the <a href="../tutorial/#c">learn the C++ basics</a> example.</p>
-<pre><code class="language-bash">docker run -d -t --name ubuntu ubuntu #start a basic Linux container: -d sends it in background (detach), -t keeps it running
+<pre><code class="language-bash">docker run -d -t --name ubuntu ubuntu #start a basic Linux container: -d sends it in the background (detach), -t keeps it running
 docker exec -it ubuntu bash -c 'g++ --version' #gives error, g++ is not installed yet
 docker exec -it ubuntu bash -c 'apt update &amp;&amp; apt install g++ -y' #install the C++ compiler, you will need it!
 </code></pre>
-<p>We can keep track of the <code>g++</code> installation with a <code>Dockerfile</code> (create it from vscode)</p>
+<p>We can keep track of the <code>g++</code> installation with a <code>Dockerfile</code>. Create it from vscode and save it in a dedicated folder</p>
 <pre><code class="language-dockerfile">FROM ubuntu
 RUN apt update &amp;&amp; apt install g++ -y
 </code></pre>
 <p>How it works? Save it and use it to build a specialized Docker Image</p>
-<pre><code class="language-bash">docker build -f /path/to/your/Dockerfile -t my-image
+<pre><code class="language-bash">docker build -f /path/to/your/folder/Dockerfile -t my-image
 </code></pre>
 <p>so that if you start a container from the newly created image you will find <code>g++</code> already there</p>
 <pre><code class="language-bash">docker run -d -t --name my-ubuntu my-image
 docker exec -it ubuntu bash -c 'g++ --version' #no error, prints the compiler version
+docker run -it --rm my-image g++ --version #test the new image in a single line
 </code></pre>
 <h2 id="docker-compose">Docker Compose</h2>
-<p>Docker Containers can be composed together to form a modular architecture. For instance consider a practical case on our teleoperation platform.</p>
-<p>You are developing a super cool ROS2 package which turns a target 6D pose for the robot into target joint angles for the robotic arm. The vendor, Universal Robots in our case, provides us the ROS2 driver package, which will listen for your joint angle commands (via a <code>ros2 topic</code>) and will take care to send them to the robot.</p>
-<p>The point is, are you sure that you want to test you're new algorithm directly on real (very expensive) robots? Wouldn't you like to see first how the math that you implemented behaves? Maybe you'll find some bug, so it's a good practice that you test your codes on simulated robots first. Remember, simulated arms are free! </p>
-<p>Here's where modularity helps you! Let's say that your ROS2 package is installed along with the UR driver into a dedicated container, let's call it <em>drivers</em>. You only need to start a second container which runs the simulator to start debugging. </p>
-<p>Moreover, imagine that a colleague of yours has a container, let's call it <em>devices</em>, which turns mocap data into target 6D poses for the robots. You can just compose <em>devices</em> and <em>drivers</em> together and the teleoperation system is ready to go!</p>
+<p>Docker Containers can be composed together to form a modular architecture. For instance, consider a practical case on our teleoperation platform.</p>
+<p>You are developing a super cool ROS package which turns a target 6D pose for the robot into target joint angles for the robotic arm. The vendor, Universal Robots in our case, provides us the ROS driver package, which will listen for your joint angle commands (via a <code>ros2 topic</code>) and will take care to send them to the robot.</p>
+<p>The point is, are you sure that you want to test your new algorithm directly on real (very expensive) robots? Wouldn't you like to see first how the math that you implemented behaves? Maybe you'll find some bugs, so it's a good practice you test your codes on simulated robots first. Remember, simulated arms are free! </p>
+<p>Here's where modularity helps you! Let's say that your ROS package is installed along with the UR driver into a dedicated container, let's call it <em>drivers</em>. You only need to start a second container which runs the simulator to start debugging. </p>
+<p>Moreover, imagine that a colleague of yours has a container, let's name it <em>devices</em>, which turns mocap data into target 6D poses for the robots. You can just compose <em>devices</em> and <em>drivers</em> together and the teleoperation system is ready to go!</p>
 <p>Whenever you're ready to test with real robots, just stop the simulator container and connect the <em>drivers</em> with your real robots.</p>
-<!-- ### ROS2
+<h3 id="ros">ROS</h3>
+<p>Let's see how it works in a <a href="https://docs.ros.org/en/jazzy/How-To-Guides/Run-2-nodes-in-single-or-separate-docker-containers.html#run-two-nodes-in-two-separate-docker-containers">minimal ROS architecture</a>.</p>
+<p>Try to add a custom service (i.e. a container supported by a specific image) to the compose architecture using the <a href="#dockerfiles">Dockerfile</a></p>
+<pre><code class="language-yml">version: '2'
 
-Let's see how it work in a very simple way, we will come to a true architecture later.
-
-### ROS1 Bridge -->
+services:
+    talker:
+        image: osrf/ros:jazzy-desktop
+        command: ros2 run demo_nodes_cpp talker
+    listener:
+        image: osrf/ros:jazzy-desktop
+        command: ros2 run demo_nodes_cpp listener
+        depends_on: talker
+    my_service:
+        build:
+            dockerfile: /path/to/your/folder/Dockerfile
+        command: g++ --version
+</code></pre>
+<pre><code class="language-bash">docker compose build my_service #build only my_service
+docker compose up my_service #run only my_service
+</code></pre>
+<p>or </p>
+<pre><code class="language-bash">docker compose build
+docker compose up
+</code></pre>
+<p><strong>Note:</strong> Docker will take a lot of memory (disk) to store images and containers. Periodically remove unused images. Moreover clear the builder cache with <code>docker builder prune</code>. Cleaning the cache means that new builds will start almost from scratch, which means they eill take more time.</p>
               
             </div>
           </div><footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
         <a href="../tutorial/" class="btn btn-neutral float-left" title="Tutorials (Beginner)"><span class="icon icon-circle-arrow-left"></span> Previous</a>
-        <a href="../wsl/" class="btn btn-neutral float-right" title="WSL">Next <span class="icon icon-circle-arrow-right"></span></a>
     </div>
 
   <hr/>
@@ -156,8 +177,6 @@ Let's see how it work in a very simple way, we will come to a true architecture 
     
       <span><a href="../tutorial/" style="color: #fcfcfc">&laquo; Previous</a></span>
     
-    
-      <span><a href="../wsl/" style="color: #fcfcfc">Next &raquo;</a></span>
     
   </span>
 </div>
