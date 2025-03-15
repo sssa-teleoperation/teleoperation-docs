@@ -58,7 +58,7 @@ Whenever you're ready to test with real robots, just stop the simulator containe
 
 ### ROS
 
-Let's see how it works in a [minimal ROS architecture](https://docs.ros.org/en/jazzy/How-To-Guides/Run-2-nodes-in-single-or-separate-docker-containers.html#run-two-nodes-in-two-separate-docker-containers).
+First, learn how it works in a [minimal ROS architecture](https://docs.ros.org/en/jazzy/How-To-Guides/Run-2-nodes-in-single-or-separate-docker-containers.html#run-two-nodes-in-two-separate-docker-containers) example.
 
 Try to add a custom service (i.e. a container supported by a specific image) to the compose architecture using the [Dockerfile](#dockerfiles)
 ```yml
