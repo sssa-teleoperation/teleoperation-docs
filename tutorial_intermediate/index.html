@@ -123,7 +123,7 @@ docker run -it --rm my-image g++ --version #test the new image in a single line
 <p>Moreover, imagine that a colleague of yours has a container, let's name it <em>devices</em>, which turns mocap data into target 6D poses for the robots. You can just compose <em>devices</em> and <em>drivers</em> together and the teleoperation system is ready to go!</p>
 <p>Whenever you're ready to test with real robots, just stop the simulator container and connect the <em>drivers</em> with your real robots.</p>
 <h3 id="ros">ROS</h3>
-<p>Let's see how it works in a <a href="https://docs.ros.org/en/jazzy/How-To-Guides/Run-2-nodes-in-single-or-separate-docker-containers.html#run-two-nodes-in-two-separate-docker-containers">minimal ROS architecture</a>.</p>
+<p>First, learn how it works in a <a href="https://docs.ros.org/en/jazzy/How-To-Guides/Run-2-nodes-in-single-or-separate-docker-containers.html#run-two-nodes-in-two-separate-docker-containers">minimal ROS architecture</a> example.</p>
 <p>Try to add a custom service (i.e. a container supported by a specific image) to the compose architecture using the <a href="#dockerfiles">Dockerfile</a></p>
 <pre><code class="language-yml">version: '2'
 
