@@ -4,6 +4,5 @@ nav:
   - Home: index.md
   - Tutorials (Beginner): tutorial.md
   - Tutorials (Intermediate): tutorial_intermediate.md
-  - WSL: wsl.md
 theme:
   name: readthedocs
