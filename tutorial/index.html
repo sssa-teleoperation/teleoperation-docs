@@ -186,7 +186,14 @@ docker exec -it ubuntu bash -c 'apt update &amp;&amp; apt install g++ -y' #insta
 <h4 id="cmake">CMake</h4>
 <p>As you will learn from the video tutorial, you need to manually call the C++ compiler, which is the <code>g++</code> executable, to turn your human-readable code into binary instructions for the machine. Imagine that your project includes many programs to compile. Do you need to call <code>g++</code> manually for each file? No, of course, you can use CMake!</p>
 <p>CMake is a cross-platform (Windows/Linux) tool that makes the generation of executables easier. No wonder that is the tool you will need to use to compile the code you'll write to form a new ROS package. For this purpose, you will learn to use this tool in the <a href="#ros">ROS</a> tutorials, but even here a minimum preliminary understanding of CMake is required. </p>
+<pre><code class="language-bash">docker exec -it ubuntu bash -c 'apt install cmake -y' #install CMake, you will need it!
+</code></pre>
 <p>Completing Step 1 and Step 2 of the <a href="https://cmake.org/cmake/help/latest/guide/tutorial/index.html">official tutorial</a> will be enough!</p>
+<p><strong>Bonus:</strong> You can have the official <em>tutorial archive</em> into the container</p>
+<pre><code class="language-bash">docker cp /path/to/cmake-4.0.0-rc4-tutorial-source.zip ubuntu:/root/tutorial-source.zip #copy to the container
+docker exec -it ubuntu bash -c 'apt install unzip -y' #needed to extract the archive
+docker exec -it ubuntu bash -c 'unzip /root/tutorial-source.zip -d /root/tutorial-source' #extract
+</code></pre>
               
             </div>
           </div><footer>
