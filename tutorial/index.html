@@ -150,8 +150,12 @@
 <p>ROS it's not actually an operating system, it's a framework where specialized programs are called <em>nodes</em>. The beauty of <em>nodes</em> is that they can exchange data very easily using ROS communication channels, which are called <em>topics</em>.</p>
 <p>Moreover, we do not need to write specialized programs for each device we buy. Since ROS it's a standard in robotics research, vendors typically provide ROS driver packages that you can install with <code>apt</code>. So in this way, the communication with the devices is solved. Our job is to develop our own ROS packages, to connect them.</p>
 <p>Make sure you have the <a href="#prerequisites">prerequisites</a> before starting with the tutorials on <a href="https://docs.ros.org/en/jazzy/Tutorials/Beginner-CLI-Tools.html#">usage</a> and <a href="https://docs.ros.org/en/jazzy/Tutorials/Beginner-Client-Libraries.html#">programming</a> of ROS applications.</p>
-<p>Also, use a proper container to work with the tutorials</p>
-<pre><code class="language-bash">docker run --volume /tmp/.X11-unix:/tmp/.X11-unix --env DISPLAY=$DISPLAY -dit --name jazzy osrf/ros:jazzy-desktop
+<p>Also, use a proper container to work with the tutorials (extra options are for graphics applications)</p>
+<pre><code class="language-bash">docker run \
+    --volume /tmp/.X11-unix:/tmp/.X11-unix \
+    --device /dev/dri \
+    --env DISPLAY=$DISPLAY \
+    -dit --name jazzy osrf/ros:jazzy-desktop
 </code></pre>
 <p><strong>Windows:</strong> Make sure you execute the <code>docker run</code> command from a WSL terminal, which you can access by running the <code>wsl</code> command in a Windows PowerShell.</p>
 <p>If you want to open a terminal to execute commands in the container</p>
