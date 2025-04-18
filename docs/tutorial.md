@@ -80,10 +80,15 @@ Moreover, we do not need to write specialized programs for each device we buy. S
 
 Make sure you have the [prerequisites](#prerequisites) before starting with the tutorials on [usage](https://docs.ros.org/en/jazzy/Tutorials/Beginner-CLI-Tools.html#) and [programming](https://docs.ros.org/en/jazzy/Tutorials/Beginner-Client-Libraries.html#) of ROS applications.
 
-Also, use a proper container to work with the tutorials
+Also, use a proper container to work with the tutorials (extra options are for graphics applications)
 ```bash
-docker run --volume /tmp/.X11-unix:/tmp/.X11-unix --env DISPLAY=$DISPLAY -dit --name jazzy osrf/ros:jazzy-desktop
+docker run \
+    --volume /tmp/.X11-unix:/tmp/.X11-unix \
+    --device /dev/dri \
+    --env DISPLAY=$DISPLAY \
+    -dit --name jazzy osrf/ros:jazzy-desktop
 ```
+
 **Windows:** Make sure you execute the `docker run` command from a WSL terminal, which you can access by running the `wsl` command in a Windows PowerShell.
 
 If you want to open a terminal to execute commands in the container
