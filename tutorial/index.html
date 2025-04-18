@@ -157,6 +157,7 @@
     --env DISPLAY=$DISPLAY \
     -dit --name jazzy osrf/ros:jazzy-desktop
 </code></pre>
+<p>If you encounter display issues stop the container (see below) and type the command <code>xhost +</code> on your host. Then restart the container.</p>
 <p><strong>Windows:</strong> Make sure you execute the <code>docker run</code> command from a WSL terminal, which you can access by running the <code>wsl</code> command in a Windows PowerShell.</p>
 <p>If you want to open a terminal to execute commands in the container</p>
 <pre><code class="language-bash">docker exec -it jazzy bash
