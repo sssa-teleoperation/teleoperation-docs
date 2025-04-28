@@ -84,11 +84,11 @@ Also, use a proper container to work with the tutorials (extra options are for g
 ```bash
 docker run \
     --volume /tmp/.X11-unix:/tmp/.X11-unix \
+    --volume ${XAUTHORITY:-$HOME/.Xauthority}:/root/.Xauthority \
     --device /dev/dri \
     --env DISPLAY=$DISPLAY \
     -dit --name jazzy osrf/ros:jazzy-desktop
 ```
-If you encounter display issues stop the container (see below) and type the command `xhost +` on your host. Then restart the container.
 
 **Windows:** Make sure you execute the `docker run` command from a WSL terminal, which you can access by running the `wsl` command in a Windows PowerShell.
 
