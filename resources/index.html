@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Resources - HRI Teleoperation Tutorial</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Resources";
+        var mkdocs_page_input_path = "resources.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> HRI Teleoperation Tutorial
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../tutorial/">Tutorials (Beginner)</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../tutorial_intermediate/">Tutorials (Intermediate)</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="#">Resources</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#jacobian-pseudoinverse">Jacobian Pseudoinverse</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#svd-singular-value-decomposition">SVD: Singular Value Decomposition</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#structure-of-sigma">Structure of \(\Sigma\)</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#moore-penrose-pseudoinverse-a">Moore-Penrose Pseudoinverse \(A^+\)</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#behavior-at-singularities">Behavior at Singularities</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#task-space-control">Task-space control</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#proper-treatment-regularization-or-truncation">Proper Treatment: Regularization or Truncation</a>
+    </li>
+        </ul>
+    </li>
+        </ul>
+    </li>
+    </ul>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">HRI Teleoperation Tutorial</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Resources</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="resources">Resources</h1>
+<h2 id="jacobian-pseudoinverse">Jacobian Pseudoinverse</h2>
+<p>Let's break down <strong>Singular Value Decomposition (SVD)</strong> and the <strong>pseudoinverse</strong> with a focus on the <strong>mathematical steps and handling of singularities</strong>.</p>
+<hr />
+<h3 id="svd-singular-value-decomposition">SVD: Singular Value Decomposition</h3>
+<p>Given a real <span class="arithmatex">\(m \times n\)</span> matrix <span class="arithmatex">\(A\)</span>, the <strong>SVD</strong> is:</p>
+<div class="arithmatex">\[
+A = U \Sigma V^T
+\]</div>
+<p>Where:</p>
+<ul>
+<li><span class="arithmatex">\(U \in \mathbb{R}^{m \times m}\)</span>: orthogonal matrix, <span class="arithmatex">\(U^T U = I_m\)</span></li>
+<li><span class="arithmatex">\(V \in \mathbb{R}^{n \times n}\)</span>: orthogonal matrix, <span class="arithmatex">\(V^T V = I_n\)</span></li>
+<li><span class="arithmatex">\(\Sigma \in \mathbb{R}^{m \times n}\)</span>: diagonal matrix with non-negative real entries <span class="arithmatex">\(\sigma_1 \geq \sigma_2 \geq \cdots \geq \sigma_r &gt; 0\)</span>, <span class="arithmatex">\(r = \text{rank}(A)\)</span></li>
+</ul>
+<h4 id="structure-of-sigma">Structure of <span class="arithmatex">\(\Sigma\)</span></h4>
+<div class="arithmatex">\[
+\Sigma =
+\begin{bmatrix}
+D &amp; 0 \\
+0 &amp; 0
+\end{bmatrix}, \quad
+D = \text{diag}(\sigma_1, \ldots, \sigma_r), \quad \sigma_i &gt; 0
+\]</div>
+<p>The zero blocks correspond to singularities—directions in which <span class="arithmatex">\(A\)</span> loses invertibility.</p>
+<hr />
+<h3 id="moore-penrose-pseudoinverse-a"><strong>Moore-Penrose Pseudoinverse <span class="arithmatex">\(A^+\)</span></strong></h3>
+<p>Given <span class="arithmatex">\(A = U \Sigma V^T\)</span>, the pseudoinverse is:</p>
+<div class="arithmatex">\[
+A^+ = V \Sigma^+ U^T
+\]</div>
+<p>Where <span class="arithmatex">\(\Sigma^+ \in \mathbb{R}^{n \times m}\)</span> is defined by:</p>
+<div class="arithmatex">\[
+\Sigma^+ =
+\begin{bmatrix}
+D^+ &amp; 0 \\
+0 &amp; 0
+\end{bmatrix}
+\]</div>
+<p>And:</p>
+<div class="arithmatex">\[
+D^+ = \text{diag}\left(\frac{1}{\sigma_1}, \ldots, \frac{1}{\sigma_r}\right)
+\]</div>
+<h3 id="behavior-at-singularities">Behavior at Singularities</h3>
+<ul>
+<li>If <span class="arithmatex">\(\sigma_i = 0\)</span>, then <span class="arithmatex">\(\frac{1}{\sigma_i}\)</span> is undefined.</li>
+<li>The pseudoinverse <strong>explicitly sets</strong> <span class="arithmatex">\(\frac{1}{\sigma_i} = 0\)</span> when <span class="arithmatex">\(\sigma_i = 0\)</span>.</li>
+<li>This truncation is essential for numerical stability and defining the pseudoinverse in non-invertible or rank-deficient cases.</li>
+</ul>
+<p>The pseudoinverse is defined via the SVD by <strong>inverting only the non-zero singular values</strong>. At singularities (zero singular values), the inversion is avoided by setting those components to zero. This yields a well-defined, unique, and stable linear operator even when <span class="arithmatex">\(A\)</span> is not invertible.</p>
+<hr />
+<h3 id="task-space-control">Task-space control</h3>
+<p>In robotic control, mapping <strong>task-space velocities</strong> <span class="arithmatex">\(\dot{x}\)</span> to <strong>joint-space velocities</strong> <span class="arithmatex">\(\dot{q}\)</span> using the <strong>Jacobian pseudoinverse</strong> <span class="arithmatex">\(J^+\)</span> is a standard approach:</p>
+<div class="arithmatex">\[
+\dot{q} = J^+ \dot{x}
+\]</div>
+<p>Now, if we <strong>do not properly handle small singular values</strong> in the Jacobian’s SVD, <strong>catastrophic behavior</strong> can result — both numerically and physically.</p>
+<p>Let <span class="arithmatex">\(J \in \mathbb{R}^{m \times n}\)</span> (e.g., end-effector velocity as a function of joint velocity), with SVD:</p>
+<div class="arithmatex">\[
+J = U \Sigma V^T
+\quad \Rightarrow \quad
+J^+ = V \Sigma^+ U^T
+\]</div>
+<p>Where <span class="arithmatex">\(\Sigma^+ = \text{diag}\left(\frac{1}{\sigma_1}, \ldots, \frac{1}{\sigma_r}, 0, \ldots, 0\right)\)</span> in the standard definition. But if <strong>you do not truncate</strong>, and use:</p>
+<div class="arithmatex">\[
+\Sigma^+ = \text{diag}\left(\frac{1}{\sigma_1}, \ldots, \frac{1}{\sigma_n} \right)
+\quad \text{with some } \sigma_i \approx 0
+\]</div>
+<p>If any <span class="arithmatex">\(\sigma_i \to 0\)</span>, then <span class="arithmatex">\(\frac{1}{\sigma_i} \to \infty\)</span>. So:</p>
+<div class="arithmatex">\[
+\dot{q} = V \Sigma^+ U^T \dot{x}
+\]</div>
+<p>will contain terms like:</p>
+<div class="arithmatex">\[
+\frac{1}{\sigma_i} v_i (u_i^T \dot{x})
+\]</div>
+<p>These small singular directions correspond to <strong>poorly observable or weakly actuated movements</strong> (i.e., directions in which the robot has little control or effect). Amplifying these yields <strong>huge joint velocities</strong> in response to small end-effector demands — often <strong>impossible</strong> for the physical system to follow.</p>
+<p>When the Jacobian becomes near-singular (e.g., robot arm is fully extended, or aligned in a singular configuration), at least one <span class="arithmatex">\(\sigma_i \approx 0\)</span>. Then:</p>
+<ul>
+<li><strong>Numerical instability</strong> in calculating <span class="arithmatex">\(J^+\)</span></li>
+<li><strong>Large errors in joint velocities</strong> <span class="arithmatex">\(\dot{q}\)</span></li>
+<li><strong>Violent, erratic, or unsafe motion</strong> if executed on hardware</li>
+</ul>
+<h4 id="proper-treatment-regularization-or-truncation">Proper Treatment: Regularization or Truncation</h4>
+<p>To avoid this:</p>
+<h5 id="truncated-svd">Truncated SVD</h5>
+<p>Set a threshold <span class="arithmatex">\(\epsilon\)</span>, and discard singular values <span class="arithmatex">\(\sigma_i &lt; \epsilon\)</span>:</p>
+<div class="arithmatex">\[
+\frac{1}{\sigma_i} := 0 \quad \text{if } \sigma_i &lt; \epsilon
+\]</div>
+<h5 id="damped-least-squares-tikhonov-regularization">Damped Least Squares (Tikhonov regularization)</h5>
+<p>Use the damped pseudoinverse:</p>
+<div class="arithmatex">\[
+J^+ = V \left( \frac{\Sigma}{\Sigma^2 + \lambda^2 I} \right) U^T
+\]</div>
+<p>Where <span class="arithmatex">\(\lambda\)</span> is a small positive constant. This smooths out <span class="arithmatex">\(\frac{1}{\sigma_i}\)</span> near zero:</p>
+<div class="arithmatex">\[
+\frac{\sigma_i}{\sigma_i^2 + \lambda^2} \to \frac{\sigma_i}{\lambda^2} \quad \text{as } \sigma_i \to 0
+\]</div>
+<p>Which <strong>prevents divergence</strong> and gives a well-behaved inverse even near singularities.</p>
+<h5 id="conclusion">Conclusion</h5>
+<p><strong>Failing to handle small singular values in Jacobian pseudoinversion causes dangerous and unstable joint behavior.</strong> It leads to:</p>
+<ul>
+<li>Large, unrealistic joint velocities</li>
+<li>Numerical blowup</li>
+<li>Physical damage in real robots</li>
+<li>Total control failure near singularities</li>
+</ul>
+<p><strong>Always apply regularization or truncation in inverse kinematics and velocity control.</strong></p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../tutorial_intermediate/" class="btn btn-neutral float-left" title="Tutorials (Intermediate)"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../tutorial_intermediate/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
