@@ -58,7 +58,7 @@
         <ul>
     <li class="toctree-l3"><a class="reference internal" href="#svd-singular-value-decomposition">SVD: Singular Value Decomposition</a>
         <ul>
-    <li class="toctree-l4"><a class="reference internal" href="#structure-of-sigma">Structure of \(\Sigma\)</a>
+    <li class="toctree-l4"><a class="reference internal" href="#mathematical-process">Mathematical Process</a>
     </li>
         </ul>
     </li>
@@ -115,7 +115,34 @@ A = U \Sigma V^T
 <li><span class="arithmatex">\(V \in \mathbb{R}^{n \times n}\)</span>: orthogonal matrix, <span class="arithmatex">\(V^T V = I_n\)</span></li>
 <li><span class="arithmatex">\(\Sigma \in \mathbb{R}^{m \times n}\)</span>: diagonal matrix with non-negative real entries <span class="arithmatex">\(\sigma_1 \geq \sigma_2 \geq \cdots \geq \sigma_r &gt; 0\)</span>, <span class="arithmatex">\(r = \text{rank}(A)\)</span></li>
 </ul>
-<h4 id="structure-of-sigma">Structure of <span class="arithmatex">\(\Sigma\)</span></h4>
+<p>To compute the <strong>singular values</strong> and <strong>U, V matrices</strong> of a matrix <span class="arithmatex">\(A\)</span>, you're performing <strong>Singular Value Decomposition (SVD)</strong>. The SVD of a matrix <span class="arithmatex">\(A \in \mathbb{R}^{m \times n}\)</span> is:</p>
+<div class="arithmatex">\[
+A = U \Sigma V^T
+\]</div>
+<p>Where:</p>
+<ul>
+<li><span class="arithmatex">\(U \in \mathbb{R}^{m \times m}\)</span> is an orthogonal matrix (left singular vectors).</li>
+<li><span class="arithmatex">\(\Sigma \in \mathbb{R}^{m \times n}\)</span> is a diagonal matrix with non-negative real numbers (singular values).</li>
+<li><span class="arithmatex">\(V \in \mathbb{R}^{n \times n}\)</span> is an orthogonal matrix (right singular vectors).</li>
+</ul>
+<h5 id="mathematical-process">Mathematical Process</h5>
+<p>You can compute the SVD in the following steps:</p>
+<h6 id="compute-eigenvalues-and-eigenvectors">Compute Eigenvalues and Eigenvectors</h6>
+<ul>
+<li>Find eigenvalues <span class="arithmatex">\(\lambda_i\)</span> and eigenvectors of <span class="arithmatex">\(A^TA\)</span>: these give the <strong>right singular vectors</strong> <span class="arithmatex">\(v_i\)</span> (columns of <span class="arithmatex">\(V\)</span>).</li>
+<li>Find eigenvalues and eigenvectors of <span class="arithmatex">\(AA^T\)</span>: these give the <strong>left singular vectors</strong> <span class="arithmatex">\(u_i\)</span> (columns of <span class="arithmatex">\(U\)</span>).</li>
+</ul>
+<h6 id="compute-singular-values">Compute Singular Values</h6>
+<ul>
+<li>Singular values <span class="arithmatex">\(\sigma_i = \sqrt{\lambda_i}\)</span>, where <span class="arithmatex">\(\lambda_i\)</span> are the non-zero eigenvalues of <span class="arithmatex">\(A^TA\)</span> (or <span class="arithmatex">\(AA^T\)</span>).</li>
+</ul>
+<h6 id="interpretation">Interpretation</h6>
+<ul>
+<li>Columns of <span class="arithmatex">\(U\)</span>: directions in domain space (input).</li>
+<li>Columns of <span class="arithmatex">\(V\)</span>: directions in codomain space (output).</li>
+<li>Singular values <span class="arithmatex">\(\sigma_i\)</span>: how much stretching happens along each axis.</li>
+</ul>
+<h6 id="structure-of-sigma">Structure of <span class="arithmatex">\(\Sigma\)</span></h6>
 <div class="arithmatex">\[
 \Sigma =
 \begin{bmatrix}
