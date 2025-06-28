@@ -21,13 +21,31 @@ As you can imagine dealing with all of these components at once is non-trivial a
 
 **Spoiler:** We are still developing, thus it's not that easy yet, but it will be!
 
-Have you ever heard the citation "on my computer it works"? It's very common that you will say those words if you ever share your code with your colleagues. Then to prevent them from replying "On mine it doesn't", we decided in our lab not only to share the code but rather the whole pc. How? Virtually. Using Docker Containers. 
+Have you ever heard the citation "on my computer it works"? It's very common that you will say those words if you ever share your code with your colleagues. Then to prevent them from replying "On mine it doesn't", we decided in our lab not only to share the code but rather the whole pc. How? Virtually. Using Docker containers. 
 
-To put it simply, a container is a virtual machine which contains the proper operating system configuration that supports your code. When you're ready to share your code, you send the whole container (well actually a copy of it which is called an Image). Your colleague will just turn on the container to have your code integrated into its own system. And so on.
+To put it simply, a container is a virtual machine which contains the proper operating system configuration that supports your code. When you're ready to share your code, you send the whole container (well actually a copy of it which is called an Image). Your colleague will just turn on the container to have your code integrated into its own system. And so on. So let's break it down!
+
+![Architecture Diagram](images/docker_beginner.png)
+
+The physical pc you're working with has its own (maybe Linux based) operating system (OS), which is called the Host OS. Most likely the Host OS has been installed on your PC by using a physical intallation media, containing a minimal image of the OS itself, let's say it's Ubuntu 22.04. 
+
+Now maybe one day you find online some cool piece of software, for instance to collect and process a video stream from USB cameras in order to estimate 6D pose of objects in the camera field-of-view. But oh no, you realize that software runs only on Ubuntu 20.04. What do you do? Do you buy another PC? Expensive. Do you downgrade you're own PC? Not so smart. The answer is Docker!
+
+If you've Docker installed on your host OS, you can use it to collect a virtual installation media, called an image, from the internet (most likely from [DockerHub](https://hub.docker.com/)), and use to create virtual machines (VM) called containers.
+
+It's important to undestand some points here:
+
+- Whatever modification you apply in the container (the VM), like installing a program in it, it will not affect the image (the original installation media)
+
+- The containers are completely unrelated to each other, they can communicate in some way, but it's like having a lot of different PCs.
+
+- If you like, you can freeze the container, most likely after you finished to properly setup the programs you were trying to run, doing a commit of the container. This will produce a new image, which extends the original one with your setups, that you may even upload to the hub and use it later a new virtual installation media (or your colleagues can).
+
+Of course, since the containers are basically virtual machines, they can access any device (processors, GPUs and so on) which are properly operated by the host OS.
 
 ### Linux
 
-In Linux, you can follow the [install using the apt repository](https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository) guide. 
+To install docker in Linux, you can follow the [install using the apt repository](https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository) guide. 
 
 **Note:** `apt` is a repository of all packages that you can install on Linux.
 
