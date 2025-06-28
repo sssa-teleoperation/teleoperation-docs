@@ -32,26 +32,26 @@ Where:
 * $\Sigma \in \mathbb{R}^{m \times n}$ is a diagonal matrix with non-negative real numbers (singular values).
 * $V \in \mathbb{R}^{n \times n}$ is an orthogonal matrix (right singular vectors).
 
-##### Mathematical Process
+<h4>Mathematical Process</h4>
 
 You can compute the SVD in the following steps:
 
-###### Compute Eigenvalues and Eigenvectors
+<h5>Compute Eigenvalues and Eigenvectors</h5>
 
 * Find eigenvalues $\lambda_i$ and eigenvectors of $A^TA$: these give the **right singular vectors** $v_i$ (columns of $V$).
 * Find eigenvalues and eigenvectors of $AA^T$: these give the **left singular vectors** $u_i$ (columns of $U$).
 
-###### Compute Singular Values
+<h5>Compute Singular Values</h5>
 
 * Singular values $\sigma_i = \sqrt{\lambda_i}$, where $\lambda_i$ are the non-zero eigenvalues of $A^TA$ (or $AA^T$).
 
-###### Interpretation
+<h5>Interpretation</h5>
 
 * Columns of $U$: directions in domain space (input).
 * Columns of $V$: directions in codomain space (output).
 * Singular values $\sigma_i$: how much stretching happens along each axis.
 
-###### Structure of $\Sigma$
+<h5>Structure of $\Sigma$</h5>
 
 $$
 \Sigma =
@@ -66,7 +66,7 @@ The zero blocks correspond to singularities—directions in which $A$ loses inve
 
 ---
 
-### **Moore-Penrose Pseudoinverse $A^+$**
+### Moore-Penrose Pseudoinverse $A^+$
 
 Given $A = U \Sigma V^T$, the pseudoinverse is:
 
@@ -90,7 +90,7 @@ $$
 D^+ = \text{diag}\left(\frac{1}{\sigma_1}, \ldots, \frac{1}{\sigma_r}\right)
 $$
 
-### Behavior at Singularities
+<h4>Behavior at Singularities</h4>
 
 * If $\sigma_i = 0$, then $\frac{1}{\sigma_i}$ is undefined.
 * The pseudoinverse **explicitly sets** $\frac{1}{\sigma_i} = 0$ when $\sigma_i = 0$.
@@ -145,11 +145,11 @@ When the Jacobian becomes near-singular (e.g., robot arm is fully extended, or a
 * **Large errors in joint velocities** $\dot{q}$
 * **Violent, erratic, or unsafe motion** if executed on hardware
 
-#### Proper Treatment: Regularization or Truncation
+<h4>Proper Treatment: Regularization or Truncation</h4>
 
 To avoid this:
 
-##### Truncated SVD
+<h5>Truncated SVD</h5>
 
 Set a threshold $\epsilon$, and discard singular values $\sigma_i < \epsilon$:
 
@@ -157,7 +157,7 @@ $$
 \frac{1}{\sigma_i} := 0 \quad \text{if } \sigma_i < \epsilon
 $$
 
-##### Damped Least Squares (Tikhonov regularization)
+<h5>Damped Least Squares (Tikhonov regularization)</h5>
 
 Use the damped pseudoinverse:
 
@@ -173,7 +173,7 @@ $$
 
 Which **prevents divergence** and gives a well-behaved inverse even near singularities.
 
-##### Conclusion
+<h5>Conclusion</h5>
 
 **Failing to handle small singular values in Jacobian pseudoinversion causes dangerous and unstable joint behavior.** It leads to:
 
