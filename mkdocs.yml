@@ -4,10 +4,13 @@ nav:
   - Home: index.md
   - Tutorials (Beginner): tutorial.md
   - Tutorials (Intermediate): tutorial_intermediate.md
+  - THE Architecture: the_architecture.md
   - Resources: resources.md
 
 theme:
-  name: readthedocs
+  name: material
+  features:
+    - content.code.copy
 
 extra_javascript:
   - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
@@ -16,3 +19,9 @@ markdown_extensions:
   - admonition
   - pymdownx.arithmatex:
       generic: true
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+
+plugins:
+  - search
