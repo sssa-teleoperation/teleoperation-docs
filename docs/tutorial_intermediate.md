@@ -71,7 +71,8 @@ services:
     listener:
         image: osrf/ros:jazzy-desktop
         command: ros2 run demo_nodes_cpp listener
-        depends_on: talker
+        depends_on: 
+            - talker
     my_service:
         build:
             dockerfile: /path/to/your/folder/Dockerfile
