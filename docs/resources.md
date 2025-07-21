@@ -8,18 +8,6 @@ Let's break down **Singular Value Decomposition (SVD)** and the **pseudoinverse*
 
 ### SVD: Singular Value Decomposition
 
-Given a real $m \times n$ matrix $A$, the **SVD** is:
-
-$$
-A = U \Sigma V^T
-$$
-
-Where:
-
-* $U \in \mathbb{R}^{m \times m}$: orthogonal matrix, $U^T U = I_m$
-* $V \in \mathbb{R}^{n \times n}$: orthogonal matrix, $V^T V = I_n$
-* $\Sigma \in \mathbb{R}^{m \times n}$: diagonal matrix with non-negative real entries $\sigma_1 \geq \sigma_2 \geq \cdots \geq \sigma_r > 0$, $r = \text{rank}(A)$
-
 To compute the **singular values** and **U, V matrices** of a matrix $A$, you're performing **Singular Value Decomposition (SVD)**. The SVD of a matrix $A \in \mathbb{R}^{m \times n}$ is:
 
 $$
