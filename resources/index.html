@@ -461,16 +461,6 @@
 <p>Let's break down <strong>Singular Value Decomposition (SVD)</strong> and the <strong>pseudoinverse</strong> with a focus on the <strong>mathematical steps and handling of singularities</strong>.</p>
 <hr />
 <h3 id="svd-singular-value-decomposition">SVD: Singular Value Decomposition</h3>
-<p>Given a real <span class="arithmatex">\(m \times n\)</span> matrix <span class="arithmatex">\(A\)</span>, the <strong>SVD</strong> is:</p>
-<div class="arithmatex">\[
-A = U \Sigma V^T
-\]</div>
-<p>Where:</p>
-<ul>
-<li><span class="arithmatex">\(U \in \mathbb{R}^{m \times m}\)</span>: orthogonal matrix, <span class="arithmatex">\(U^T U = I_m\)</span></li>
-<li><span class="arithmatex">\(V \in \mathbb{R}^{n \times n}\)</span>: orthogonal matrix, <span class="arithmatex">\(V^T V = I_n\)</span></li>
-<li><span class="arithmatex">\(\Sigma \in \mathbb{R}^{m \times n}\)</span>: diagonal matrix with non-negative real entries <span class="arithmatex">\(\sigma_1 \geq \sigma_2 \geq \cdots \geq \sigma_r &gt; 0\)</span>, <span class="arithmatex">\(r = \text{rank}(A)\)</span></li>
-</ul>
 <p>To compute the <strong>singular values</strong> and <strong>U, V matrices</strong> of a matrix <span class="arithmatex">\(A\)</span>, you're performing <strong>Singular Value Decomposition (SVD)</strong>. The SVD of a matrix <span class="arithmatex">\(A \in \mathbb{R}^{m \times n}\)</span> is:</p>
 <div class="arithmatex">\[
 A = U \Sigma V^T
