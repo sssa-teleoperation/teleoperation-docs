@@ -11,8 +11,10 @@
       
       
       
-        <link rel="prev" href="../the_architecture/">
+        <link rel="prev" href="../tutorial_intermediate/">
       
+      
+        <link rel="next" href="../resources/">
       
       
       <link rel="icon" href="../assets/images/favicon.png">
@@ -20,7 +22,7 @@
     
     
       
-        <title>Resources - HRI Teleoperation Tutorial</title>
+        <title>THE Architecture - HRI Teleoperation Tutorial</title>
       
     
     
@@ -62,7 +64,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#resources" class="md-skip">
+        <a href="#the-architecture" class="md-skip">
           Skip to content
         </a>
       
@@ -98,7 +100,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Resources
+              THE Architecture
             
           </span>
         </div>
@@ -251,27 +253,6 @@
       
   
   
-  
-  
-    <li class="md-nav__item">
-      <a href="../the_architecture/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    THE Architecture
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
     
   
   
@@ -288,7 +269,7 @@
           
   
   <span class="md-ellipsis">
-    Resources
+    THE Architecture
     
   </span>
   
@@ -300,7 +281,7 @@
         
   
   <span class="md-ellipsis">
-    Resources
+    THE Architecture
     
   </span>
   
@@ -323,44 +304,11 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#jacobian-pseudoinverse" class="md-nav__link">
+  <a href="#dry-run" class="md-nav__link">
     <span class="md-ellipsis">
-      Jacobian Pseudoinverse
+      Dry run
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="Jacobian Pseudoinverse">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#svd-singular-value-decomposition" class="md-nav__link">
-    <span class="md-ellipsis">
-      SVD: Singular Value Decomposition
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#moore-penrose-pseudoinverse-a" class="md-nav__link">
-    <span class="md-ellipsis">
-      Moore-Penrose Pseudoinverse \(A^+\)
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#task-space-control" class="md-nav__link">
-    <span class="md-ellipsis">
-      Task-space control
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -368,6 +316,27 @@
   
 </nav>
       
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../resources/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Resources
+    
+  </span>
+  
+
+      </a>
     </li>
   
 
@@ -399,44 +368,11 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#jacobian-pseudoinverse" class="md-nav__link">
+  <a href="#dry-run" class="md-nav__link">
     <span class="md-ellipsis">
-      Jacobian Pseudoinverse
+      Dry run
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="Jacobian Pseudoinverse">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#svd-singular-value-decomposition" class="md-nav__link">
-    <span class="md-ellipsis">
-      SVD: Singular Value Decomposition
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#moore-penrose-pseudoinverse-a" class="md-nav__link">
-    <span class="md-ellipsis">
-      Moore-Penrose Pseudoinverse \(A^+\)
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#task-space-control" class="md-nav__link">
-    <span class="md-ellipsis">
-      Task-space control
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -456,152 +392,17 @@
 
 
 
-<h1 id="resources">Resources</h1>
-<h2 id="jacobian-pseudoinverse">Jacobian Pseudoinverse</h2>
-<p>Let's break down <strong>Singular Value Decomposition (SVD)</strong> and the <strong>pseudoinverse</strong> with a focus on the <strong>mathematical steps and handling of singularities</strong>.</p>
-<hr />
-<h3 id="svd-singular-value-decomposition">SVD: Singular Value Decomposition</h3>
-<p>Given a real <span class="arithmatex">\(m \times n\)</span> matrix <span class="arithmatex">\(A\)</span>, the <strong>SVD</strong> is:</p>
-<div class="arithmatex">\[
-A = U \Sigma V^T
-\]</div>
-<p>Where:</p>
-<ul>
-<li><span class="arithmatex">\(U \in \mathbb{R}^{m \times m}\)</span>: orthogonal matrix, <span class="arithmatex">\(U^T U = I_m\)</span></li>
-<li><span class="arithmatex">\(V \in \mathbb{R}^{n \times n}\)</span>: orthogonal matrix, <span class="arithmatex">\(V^T V = I_n\)</span></li>
-<li><span class="arithmatex">\(\Sigma \in \mathbb{R}^{m \times n}\)</span>: diagonal matrix with non-negative real entries <span class="arithmatex">\(\sigma_1 \geq \sigma_2 \geq \cdots \geq \sigma_r &gt; 0\)</span>, <span class="arithmatex">\(r = \text{rank}(A)\)</span></li>
-</ul>
-<p>To compute the <strong>singular values</strong> and <strong>U, V matrices</strong> of a matrix <span class="arithmatex">\(A\)</span>, you're performing <strong>Singular Value Decomposition (SVD)</strong>. The SVD of a matrix <span class="arithmatex">\(A \in \mathbb{R}^{m \times n}\)</span> is:</p>
-<div class="arithmatex">\[
-A = U \Sigma V^T
-\]</div>
-<p>Where:</p>
-<ul>
-<li><span class="arithmatex">\(U \in \mathbb{R}^{m \times m}\)</span> is an orthogonal matrix (left singular vectors).</li>
-<li><span class="arithmatex">\(\Sigma \in \mathbb{R}^{m \times n}\)</span> is a diagonal matrix with non-negative real numbers (singular values).</li>
-<li><span class="arithmatex">\(V \in \mathbb{R}^{n \times n}\)</span> is an orthogonal matrix (right singular vectors).</li>
-</ul>
-<h4>Mathematical Process</h4>
-
-<p>You can compute the SVD in the following steps:</p>
-<h5>Compute Eigenvalues and Eigenvectors</h5>
-
-<ul>
-<li>Find eigenvalues <span class="arithmatex">\(\lambda_i\)</span> and eigenvectors of <span class="arithmatex">\(A^TA\)</span>: these give the <strong>right singular vectors</strong> <span class="arithmatex">\(v_i\)</span> (columns of <span class="arithmatex">\(V\)</span>).</li>
-<li>Find eigenvalues and eigenvectors of <span class="arithmatex">\(AA^T\)</span>: these give the <strong>left singular vectors</strong> <span class="arithmatex">\(u_i\)</span> (columns of <span class="arithmatex">\(U\)</span>).</li>
-</ul>
-<h5>Compute Singular Values</h5>
-
-<ul>
-<li>Singular values <span class="arithmatex">\(\sigma_i = \sqrt{\lambda_i}\)</span>, where <span class="arithmatex">\(\lambda_i\)</span> are the non-zero eigenvalues of <span class="arithmatex">\(A^TA\)</span> (or <span class="arithmatex">\(AA^T\)</span>).</li>
-</ul>
-<h5>Interpretation</h5>
-
-<ul>
-<li>Columns of <span class="arithmatex">\(U\)</span>: directions in domain space (input).</li>
-<li>Columns of <span class="arithmatex">\(V\)</span>: directions in codomain space (output).</li>
-<li>Singular values <span class="arithmatex">\(\sigma_i\)</span>: how much stretching happens along each axis.</li>
-</ul>
-<h5>Structure of $\Sigma$</h5>
-
-<div class="arithmatex">\[
-\Sigma =
-\begin{bmatrix}
-D &amp; 0 \\
-0 &amp; 0
-\end{bmatrix}, \quad
-D = \text{diag}(\sigma_1, \ldots, \sigma_r), \quad \sigma_i &gt; 0
-\]</div>
-<p>The zero blocks correspond to singularities—directions in which <span class="arithmatex">\(A\)</span> loses invertibility.</p>
-<hr />
-<h3 id="moore-penrose-pseudoinverse-a">Moore-Penrose Pseudoinverse <span class="arithmatex">\(A^+\)</span></h3>
-<p>Given <span class="arithmatex">\(A = U \Sigma V^T\)</span>, the pseudoinverse is:</p>
-<div class="arithmatex">\[
-A^+ = V \Sigma^+ U^T
-\]</div>
-<p>Where <span class="arithmatex">\(\Sigma^+ \in \mathbb{R}^{n \times m}\)</span> is defined by:</p>
-<div class="arithmatex">\[
-\Sigma^+ =
-\begin{bmatrix}
-D^+ &amp; 0 \\
-0 &amp; 0
-\end{bmatrix}
-\]</div>
-<p>And:</p>
-<div class="arithmatex">\[
-D^+ = \text{diag}\left(\frac{1}{\sigma_1}, \ldots, \frac{1}{\sigma_r}\right)
-\]</div>
-<h4>Behavior at Singularities</h4>
-
-<ul>
-<li>If <span class="arithmatex">\(\sigma_i = 0\)</span>, then <span class="arithmatex">\(\frac{1}{\sigma_i}\)</span> is undefined.</li>
-<li>The pseudoinverse <strong>explicitly sets</strong> <span class="arithmatex">\(\frac{1}{\sigma_i} = 0\)</span> when <span class="arithmatex">\(\sigma_i = 0\)</span>.</li>
-<li>This truncation is essential for numerical stability and defining the pseudoinverse in non-invertible or rank-deficient cases.</li>
-</ul>
-<p>The pseudoinverse is defined via the SVD by <strong>inverting only the non-zero singular values</strong>. At singularities (zero singular values), the inversion is avoided by setting those components to zero. This yields a well-defined, unique, and stable linear operator even when <span class="arithmatex">\(A\)</span> is not invertible.</p>
-<hr />
-<h3 id="task-space-control">Task-space control</h3>
-<p>In robotic control, mapping <strong>task-space velocities</strong> <span class="arithmatex">\(\dot{x}\)</span> to <strong>joint-space velocities</strong> <span class="arithmatex">\(\dot{q}\)</span> using the <strong>Jacobian pseudoinverse</strong> <span class="arithmatex">\(J^+\)</span> is a standard approach:</p>
-<div class="arithmatex">\[
-\dot{q} = J^+ \dot{x}
-\]</div>
-<p>Now, if we <strong>do not properly handle small singular values</strong> in the Jacobian’s SVD, <strong>catastrophic behavior</strong> can result — both numerically and physically.</p>
-<p>Let <span class="arithmatex">\(J \in \mathbb{R}^{m \times n}\)</span> (e.g., end-effector velocity as a function of joint velocity), with SVD:</p>
-<div class="arithmatex">\[
-J = U \Sigma V^T
-\quad \Rightarrow \quad
-J^+ = V \Sigma^+ U^T
-\]</div>
-<p>Where <span class="arithmatex">\(\Sigma^+ = \text{diag}\left(\frac{1}{\sigma_1}, \ldots, \frac{1}{\sigma_r}, 0, \ldots, 0\right)\)</span> in the standard definition. But if <strong>you do not truncate</strong>, and use:</p>
-<div class="arithmatex">\[
-\Sigma^+ = \text{diag}\left(\frac{1}{\sigma_1}, \ldots, \frac{1}{\sigma_n} \right)
-\quad \text{with some } \sigma_i \approx 0
-\]</div>
-<p>If any <span class="arithmatex">\(\sigma_i \to 0\)</span>, then <span class="arithmatex">\(\frac{1}{\sigma_i} \to \infty\)</span>. So:</p>
-<div class="arithmatex">\[
-\dot{q} = V \Sigma^+ U^T \dot{x}
-\]</div>
-<p>will contain terms like:</p>
-<div class="arithmatex">\[
-\frac{1}{\sigma_i} v_i (u_i^T \dot{x})
-\]</div>
-<p>These small singular directions correspond to <strong>poorly observable or weakly actuated movements</strong> (i.e., directions in which the robot has little control or effect). Amplifying these yields <strong>huge joint velocities</strong> in response to small end-effector demands — often <strong>impossible</strong> for the physical system to follow.</p>
-<p>When the Jacobian becomes near-singular (e.g., robot arm is fully extended, or aligned in a singular configuration), at least one <span class="arithmatex">\(\sigma_i \approx 0\)</span>. Then:</p>
-<ul>
-<li><strong>Numerical instability</strong> in calculating <span class="arithmatex">\(J^+\)</span></li>
-<li><strong>Large errors in joint velocities</strong> <span class="arithmatex">\(\dot{q}\)</span></li>
-<li><strong>Violent, erratic, or unsafe motion</strong> if executed on hardware</li>
-</ul>
-<h4>Proper Treatment: Regularization or Truncation</h4>
-
-<p>To avoid this:</p>
-<h5>Truncated SVD</h5>
-
-<p>Set a threshold <span class="arithmatex">\(\epsilon\)</span>, and discard singular values <span class="arithmatex">\(\sigma_i &lt; \epsilon\)</span>:</p>
-<div class="arithmatex">\[
-\frac{1}{\sigma_i} := 0 \quad \text{if } \sigma_i &lt; \epsilon
-\]</div>
-<h5>Damped Least Squares (Tikhonov regularization)</h5>
-
-<p>Use the damped pseudoinverse:</p>
-<div class="arithmatex">\[
-J^+ = V \left( \frac{\Sigma}{\Sigma^2 + \lambda^2 I} \right) U^T
-\]</div>
-<p>Where <span class="arithmatex">\(\lambda\)</span> is a small positive constant. This smooths out <span class="arithmatex">\(\frac{1}{\sigma_i}\)</span> near zero:</p>
-<div class="arithmatex">\[
-\frac{\sigma_i}{\sigma_i^2 + \lambda^2} \to \frac{\sigma_i}{\lambda^2} \quad \text{as } \sigma_i \to 0
-\]</div>
-<p>Which <strong>prevents divergence</strong> and gives a well-behaved inverse even near singularities.</p>
-<h5>Conclusion</h5>
-
-<p><strong>Failing to handle small singular values in Jacobian pseudoinversion causes dangerous and unstable joint behavior.</strong> It leads to:</p>
-<ul>
-<li>Large, unrealistic joint velocities</li>
-<li>Numerical blowup</li>
-<li>Physical damage in real robots</li>
-<li>Total control failure near singularities</li>
-</ul>
-<p><strong>Always apply regularization or truncation in inverse kinematics and velocity control.</strong></p>
+<h1 id="the-architecture">THE Architecture</h1>
+<p>The development of the following architecture was supported by the Tuscany Health Ecosystem (THE) project and it hosted on the <a href="https://github.com/sssa-teleoperation">sssa-teleoperation</a> GitHub account.</p>
+<h2 id="dry-run">Dry run</h2>
+<p>Let's try to prepare your host OS for the teleoperation architecture
+<div class="highlight"><pre><span></span><code>mkdir<span class="w"> </span>teleoperation<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span>teleoperation
+git<span class="w"> </span>clone<span class="w"> </span>git@github.com:sssa-teleoperation/docker.git
+<span class="nb">cd</span><span class="w"> </span>docker<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>docker<span class="w"> </span>compose<span class="w"> </span>up
+</code></pre></div>
+If everything set up properly (it will take about 10 minutes) you can try to see what's running on
+<div class="highlight"><pre><span></span><code>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>ros2_tools<span class="w"> </span>/rviz2
+</code></pre></div></p>
 
 
 
