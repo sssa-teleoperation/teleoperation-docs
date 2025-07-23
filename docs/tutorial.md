@@ -63,7 +63,7 @@ Then we say to our operating system that there is a new group of users
 ``` bash
 newgrp docker
 ```
-and now starting a container is way simpler
+and now starting a container is way simpler. To apply to all system reboot your pc.
 ``` bash
 docker run hello-world
 ```
