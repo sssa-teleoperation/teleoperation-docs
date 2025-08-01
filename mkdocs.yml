@@ -1,5 +1,6 @@
 site_name: HRI Teleoperation Tutorial
 site_description: A tutorial on teleoperation for human-robot interaction
+site_url: https://sssa-teleoperation.github.io/teleoperation-docs/
 nav:
   - Home: index.md
   - Tutorials (Beginner): tutorial.md
